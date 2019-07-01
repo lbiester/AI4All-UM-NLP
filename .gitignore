@@ -1,0 +1,8 @@
+Scratch.ipynb
+.ipynb_checkpoints/
+.DS_Store
+.python-version
+.idea/
+__pycache__/
+happydb-analysis.ipynb
+data/

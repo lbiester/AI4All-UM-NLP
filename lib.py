@@ -1,3 +1,4 @@
+import nltk
 import pandas as pd
 import numpy as np
 from IPython.display import HTML, display
@@ -10,33 +11,36 @@ DEMOGRAPHIC_CSV = 'data/demographic.csv'
 HM_CSV = 'data/cleaned_hm.csv'
 
 
+def load_joined_data():
+    # returns a list of dictionaries instead of using pandas
+    demographics = pd.read_csv(DEMOGRAPHIC_CSV)
+    happy_moments = pd.read_csv(HM_CSV)
+    joined = pd.merge(demographics, happy_moments, left_on='wid', right_on='wid')
+    aggregated_moments = []
+    for row in joined.itertuples():
+        aggregated_moments.append({'hm_text': row.cleaned_hm, 'age': row.age, 'country': row.country, 'wid': row.wid,
+                                   'gender': row.gender, 'parenthood': row.parenthood, 'marital': row.marital,
+                                   'hmid': row.hmid})
+    return aggregated_moments
+
+
 def load_demographics():
-    return pd.read_csv(DEMOGRAPHIC_CSV)
-
-
-def load_demographics_dict():
-    demographics = {}
-    df = load_demographics()
+    demographics = []
+    df = pd.read_csv(DEMOGRAPHIC_CSV)
     for _, row in df.iterrows():
-        demographics[row['wid']] = {}
+        demographics.append({})
         for column in df.columns:
-            if column != 'wid':
-                demographics[row['wid']][column] = row[column]
+            demographics[-1][column] = row[column]
     return demographics
 
 
 def load_happy_moments():
-    return pd.read_csv(HM_CSV)
-
-
-def load_happy_moments_dict():
-    happy_moments = {}
-    df = load_happy_moments()
+    happy_moments = []
+    df = pd.read_csv(HM_CSV)
     for _, row in df.iterrows():
-        happy_moments[row['hmid']] = {}
+        happy_moments.append({})
         for column in df.columns:
-            if column != 'hmid':
-                happy_moments[row['hmid']][column] = row[column]
+            happy_moments[-1][column] = row[column]
     return happy_moments
 
 

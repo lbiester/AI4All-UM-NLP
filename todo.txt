@@ -2,3 +2,4 @@ Clean newlines and quotes from hms
 Clean inappropriate hms
 save tokenized sentences for speed, then we can get rid of splitting the dataset into 1/8...
 use only spacy for tokenizing if we are able to get it fast enough through pickle
+n-gram features for text classifier - this should probably be in extras

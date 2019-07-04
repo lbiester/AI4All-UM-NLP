@@ -1,4 +1,3 @@
-import nltk
 import pandas as pd
 import numpy as np
 from IPython.display import HTML, display
@@ -27,20 +26,20 @@ def load_joined_data():
 def load_demographics():
     demographics = []
     df = pd.read_csv(DEMOGRAPHIC_CSV)
-    for _, row in df.iterrows():
+    for row in df.itertuples():
         demographics.append({})
         for column in df.columns:
-            demographics[-1][column] = row[column]
+            demographics[-1][column] = row.__getattribute__(column)
     return demographics
 
 
 def load_happy_moments():
     happy_moments = []
     df = pd.read_csv(HM_CSV)
-    for _, row in df.iterrows():
+    for row in df.itertuples():
         happy_moments.append({})
         for column in df.columns:
-            happy_moments[-1][column] = row[column]
+            happy_moments[-1][column] = row.__getattribute__(column)
     return happy_moments
 
 
@@ -82,3 +81,19 @@ def load_glove_embeddings():
             split = line.rsplit(maxsplit=dim)
             vectors[split[0]] = np.array([float(val) for val in split[1:]])
     return vectors
+
+
+def create_pie(distribution, title=None):
+    labels = distribution.keys()
+    sizes = distribution.values()
+
+    colors = plt.cm.viridis(np.linspace(0., 1., 6))
+
+    _, ax = plt.subplots()
+    wedges, texts = ax.pie(sizes, startangle=180, labeldistance=1.05, colors=colors)
+
+    ax.legend(wedges, labels, loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
+
+    ax.axis('equal')
+    plt.title(title)
+    plt.show()

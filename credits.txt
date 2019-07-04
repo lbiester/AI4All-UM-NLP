@@ -1,3 +1,5 @@
 We use data from https://www.kaggle.com/ritresearch/happydb/kernels for this project
 
 The project code is inspired by Chen Chen's work at https://www.kaggle.com/kernels/scriptcontent/2147489/download
+
+Logistic regression code is modified from https://ml-cheatsheet.readthedocs.io/en/latest/logistic_regression.html

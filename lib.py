@@ -17,7 +17,7 @@ def load_joined_data():
     joined = pd.merge(demographics, happy_moments, left_on='wid', right_on='wid')
     aggregated_moments = []
     for row in joined.itertuples():
-        aggregated_moments.append({'hm_text': row.cleaned_hm, 'age': row.age, 'country': row.country, 'wid': row.wid,
+        aggregated_moments.append({'cleaned_hm': row.cleaned_hm, 'age': row.age, 'country': row.country, 'wid': row.wid,
                                    'gender': row.gender, 'parenthood': row.parenthood, 'marital': row.marital,
                                    'hmid': row.hmid})
     return aggregated_moments
@@ -61,13 +61,14 @@ def print_as_table(demographic_distribution, title):
     display(HTML(tabulate.tabulate(table, headers, tablefmt='html')))
 
 
-def create_word_cloud(word_list, stop=None):
+def create_word_cloud(sentence_list, stop=None):
     all_stop = wordcloud.STOPWORDS.union(stop) if stop else wordcloud.STOPWORDS
+    text = '\n'.join(sentence_list)
     if stop:
         wc = wordcloud.WordCloud(
-            background_color="white", height=2700, width=3600, stopwords=all_stop).generate(' '.join(word_list))
+            background_color="white", height=2700, width=3600, stopwords=all_stop).generate(text)
     else:
-        wc = wordcloud.WordCloud(background_color="white", height=2700, width=3600).generate(' '.join(word_list))
+        wc = wordcloud.WordCloud(background_color="white", height=2700, width=3600).generate(text)
     plt.figure(figsize=(14, 8))
     plt.imshow(wc.recolor(colormap=plt.get_cmap('Set2')), interpolation='bilinear')
     plt.axis("off")

@@ -62,13 +62,13 @@ def print_as_table(demographic_distribution, title):
 
 
 def create_word_cloud(sentence_list, stop=None):
-    all_stop = wordcloud.STOPWORDS.union(stop) if stop else wordcloud.STOPWORDS
     text = '\n'.join(sentence_list)
-    if stop:
-        wc = wordcloud.WordCloud(
-            background_color="white", height=2700, width=3600, stopwords=all_stop).generate(text)
-    else:
-        wc = wordcloud.WordCloud(background_color="white", height=2700, width=3600).generate(text)
+    if stop is not None:
+        for word in stop:
+            text = text.replace(' ' + word, '')
+            text = text.replace(word + ' ', '')
+
+    wc = wordcloud.WordCloud(background_color="white", height=2700, width=3600).generate(text)
     plt.figure(figsize=(14, 8))
     plt.imshow(wc.recolor(colormap=plt.get_cmap('Set2')), interpolation='bilinear')
     plt.axis("off")

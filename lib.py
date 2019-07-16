@@ -1,3 +1,4 @@
+import re
 from collections import Counter
 
 import pandas as pd
@@ -64,11 +65,21 @@ def print_as_table(demographic_distribution, title):
 
 
 def create_word_cloud(sentence_list, stop=None):
-    text = '\n'.join(sentence_list)
     if stop is not None:
-        for word in stop:
-            text = text.replace(' ' + word, '')
-            text = text.replace(word + ' ', '')
+        new_sentences = []
+        for sentence in sentence_list:
+            for word in stop:
+                if word in sentence:
+                    # replace in middle of sentence
+                    sentence = re.sub(r'\W{}\W'.format(word), ' ', sentence)
+                    # replace at beginning of sentence
+                    sentence = re.sub(r'^{}\W'.format(word), '', sentence)
+                    # replace at the end of sentence
+                    sentence = re.sub(r'\W{}$'.format(word), '', sentence)
+            new_sentences.append(sentence)
+        sentence_list = new_sentences
+
+    text = '\n'.join(sentence_list)
 
     wc = wordcloud.WordCloud(background_color="white", height=2700, width=3600).generate(text)
     plt.figure(figsize=(14, 8))

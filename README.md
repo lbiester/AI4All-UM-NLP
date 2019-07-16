@@ -7,6 +7,6 @@ from google.colab import drive
 drive.mount('/content/drive')
 %cd '/content/drive/My Drive/'
 
-!wget https://www.dropbox.com/s/wbqabaqo3tuo99q/AI4All-UM-NLP.zip
+!wget https://www.dropbox.com/s/b613sltuqbuxb9j/AI4All-UM-NLP.zip
 !unzip AI4All-UM-NLP.zip
 ```

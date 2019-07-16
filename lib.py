@@ -1,3 +1,5 @@
+from collections import Counter
+
 import pandas as pd
 import numpy as np
 from IPython.display import HTML, display
@@ -98,3 +100,9 @@ def create_pie(distribution, title=None):
     ax.axis('equal')
     plt.title(title)
     plt.show()
+
+
+def get_most_common_words(word_list, n):
+    counts = Counter(word_list)
+    most_common = counts.most_common(n)
+    return [x[0] for x in most_common]

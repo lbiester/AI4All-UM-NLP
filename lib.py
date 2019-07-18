@@ -117,3 +117,9 @@ def get_most_common_words(word_list, n):
     counts = Counter(word_list)
     most_common = counts.most_common(n)
     return [x[0] for x in most_common]
+
+
+def print_feature_matrix(count_vectorizer, feature_matrix):
+    pd.set_option("display.max_rows", 10)
+    pd.set_option("display.max_columns", 15)
+    print(pd.DataFrame(feature_matrix.todense(), columns=count_vectorizer.get_feature_names()))
